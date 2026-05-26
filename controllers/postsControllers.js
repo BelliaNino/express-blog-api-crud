@@ -23,8 +23,36 @@ function show(req, res) {
   res.status(200).json({ error: null, results: post });
 }
 
-function create (req, res) {
+//create
+function create(req, res) {
+  const { title, content, image, tags } = req.body;
 
+  // Validazione title
+  if (!title || title.trim() === '') {
+    res.status(400).json({ error: 'Il campo "title" è obbligatorio', results: null });
+    return;
+  }
+
+  // Validazione content
+  if (!content || content.trim() === '') {
+    res.status(400).json({ error: 'Il campo "content" è obbligatorio', results: null });
+    return;
+  }
+
+  // Validazione image
+  if (!image || image.trim() === '') {
+    res.status(400).json({ error: 'Il campo "image" è obbligatorio', results: null });
+    return;
+  }
+
+  // Validazione tags
+  if (!tags || !Array.isArray(tags) || tags.length === 0) {
+    res.status(400).json({ error: 'Il campo "tags" deve essere un array non vuoto', results: null });
+    return;
+  }
+
+  console.log('Dati in arrivo:', req.body);
+  res.status(201).json({ error: null, results: req.body });
 }
 
 function update (req, res) {
