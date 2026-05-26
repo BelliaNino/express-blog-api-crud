@@ -1,4 +1,5 @@
-import express from 'express'
+import express from 'express';
+import { index, show, create, update, partialUpdate, destroy } from '../controllers/postsControllers.js';
 
 const router = express.Router(); 
 
