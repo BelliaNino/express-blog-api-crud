@@ -36,7 +36,24 @@ function partialUpdate (req, res) {
 }
 
 function destroy(req, res) {
-  
+  const realId = Number(req.params.id.trim());
+
+  if (isNaN(realId) || realId <= 0) {
+    res.status(400).json({ error: 'Id non valido', results: null });
+    return;
+  }
+
+  const postIndex = posts.findIndex(p => p.id === realId);
+
+  if (postIndex === -1) {
+    res.status(404).json({ error: `Post ${realId} non trovato`, results: null });
+    return;
+  }
+
+  posts.splice(postIndex, 1);
+  console.log('Posts dopo la rimozione:', posts);
+
+  res.status(200).json({ error: null, results: `Post ${realId} eliminato` });
 }
 
 export {
