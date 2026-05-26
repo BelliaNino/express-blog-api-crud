@@ -1,11 +1,26 @@
 import posts from '../data/posts.js'
 
 function index (req, res) {
-    res.json({ error: null, results: posts });
+    res.status(200).json({ error: null, results: posts });
 }
 
+//SHOW http://localhost:3000/posts/ID
 function show(req, res) {
-  
+  const realId = Number(req.params.id.trim());
+
+  if (isNaN(realId) || realId <= 0) {
+    res.status(400).json({ error: 'Id non valido', results: null });
+    return;
+  }
+
+  const post = posts.find(p => p.id === realId);
+
+  if (!post) {
+    res.status(404).json({ error: `Post ${realId} non trovato`, results: null });
+    return;
+  }
+
+  res.status(200).json({ error: null, results: post });
 }
 
 function create (req, res) {
